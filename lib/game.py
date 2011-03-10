@@ -39,3 +39,34 @@ class Game:
         self._round_pieces.append(position)
         return position
 
+    def _vertical_win(self, piece):
+        if piece == CROSS:
+            pieces = self._cross_pieces
+        elif piece == ROUND:
+            pieces = self._round_pieces
+
+        if len(pieces) < 4:
+            return False
+
+        victory = False
+
+        # Only the columns where there are pieces need to be visited
+        columns = set(map(lambda i: i[0], pieces))
+        for x in columns:
+            # Get the pieces at the column x
+            column_pieces = filter(lambda i: i[0] == x, pieces)
+
+            if len(column_pieces) < 4:
+                continue
+
+            # Just look in the range of rows where there are pieces
+            y_start = min(column_pieces)[1]
+            y_end = max(column_pieces)[1] + 1
+            for y in range(y_start, y_end):
+                connected = filter(lambda i: y <= i[1] <= y+3,
+                                   column_pieces)
+                if len(connected) == 4:
+                    return True
+
+        return victory
+
