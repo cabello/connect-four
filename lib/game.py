@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+CROSS = 'X'
+ROUND = 'O'
+
 class ColumnFullException(Exception):
     pass
 
@@ -8,6 +11,8 @@ class Game:
         self._rows = rows
         self._columns = columns
         self._pieces = []
+        self._cross_pieces = []
+        self._round_pieces = []
 
     def _drop_piece(self, piece, column):
         position = None
@@ -22,5 +27,15 @@ class Game:
         if position is None:
             raise ColumnFullException()
 
+        return position
+
+    def drop_cross(self, column):
+        position = self._drop_piece(CROSS, column)
+        self._cross_pieces.append(position)
+        return position
+
+    def drop_round(self, column):
+        position = self._drop_piece(ROUND, column)
+        self._round_pieces.append(position)
         return position
 

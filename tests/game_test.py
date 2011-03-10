@@ -30,6 +30,27 @@ class GameTestCase(unittest.TestCase):
         self.assertEquals(g._drop_piece('X', 0), (0,0))
         self.assertRaises(ColumnFullException, g._drop_piece, 'X', 0)
 
+    def test_drop_cross(self):
+        g = Game()
+        self.assertEquals(g.drop_cross(0), (0,5))
+        self.assertTrue((0,5) in g._cross_pieces)
+
+    def test_drop_cross_on_full_column_raises(self):
+        g = Game(rows=2)
+        self.assertEquals(g.drop_cross(0), (0,1))
+        self.assertEquals(g.drop_cross(0), (0,0))
+        self.assertRaises(ColumnFullException, g.drop_cross, 0)
+
+    def test_drop_round(self):
+        g = Game()
+        self.assertEquals(g.drop_round(0), (0,5))
+        self.assertTrue((0,5) in g._round_pieces)
+
+    def test_drop_round_on_full_column_raises(self):
+        g = Game(rows=2)
+        self.assertEquals(g.drop_round(0), (0,1))
+        self.assertEquals(g.drop_round(0), (0,0))
+        self.assertRaises(ColumnFullException, g.drop_round, 0)
 
 if __name__ == "__main__":
     unittest.main()
