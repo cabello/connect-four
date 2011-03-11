@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from types import ListType
-
 CROSS = 'X'
 ROUND = 'O'
 
