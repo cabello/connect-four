@@ -76,6 +76,30 @@ class GameTestCase(unittest.TestCase):
         self.assertTrue(g._vertical_win('O'))
         self.assertFalse(g._vertical_win('X'))
 
+    def test_horizontal_win_by_cross(self):
+        # No victory, insufficient total pieces
+        g = Game()
+        [g.drop_cross(i) for i in range(3)]
+        self.assertFalse(g._horizontal_win('X'))
+
+        # No victory insufficient row total pieces
+        g = Game()
+        [g.drop_cross(i) for i in range(3)]
+        g.drop_cross(0)
+        self.assertFalse(g._horizontal_win('X'))
+
+        # Horizontal win using crosses
+        g = Game()
+        [g.drop_cross(i) for i in range(4)]
+        self.assertTrue(g._horizontal_win('X'))
+
+    def test_horizontal_win_by_round(self):
+        # Horizontal win using round
+        g = Game()
+        [g.drop_round(i) for i in range(4)]
+        self.assertTrue(g._horizontal_win('O'))
+        self.assertFalse(g._horizontal_win('X'))
+
 
 if __name__ == "__main__":
     unittest.main()

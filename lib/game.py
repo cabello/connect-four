@@ -70,3 +70,34 @@ class Game:
 
         return victory
 
+    def _horizontal_win(self, piece):
+        if piece == CROSS:
+            pieces = self._cross_pieces
+        elif piece == ROUND:
+            pieces = self._round_pieces
+
+        if len(pieces) < 4:
+            return False
+
+        victory = False
+
+        # Only the rows where there pieces need to be visited
+        rows = set(map(lambda i: i[1], pieces))
+        for y in rows:
+            # Get the pieces at the row y
+            row_pieces = filter(lambda i: i[1] == y, pieces)
+
+            if len(row_pieces) < 4:
+                continue
+
+            # Just look in the range of rows where there are pieces
+            x_start = min(row_pieces)[0]
+            x_end = max(row_pieces)[0] + 1
+            for x in range(x_start, x_end):
+                connected = filter(lambda i: x <= i[0] <= x+3,
+                                   row_pieces)
+                if len(connected) == 4:
+                    return True
+
+        return victory
+
