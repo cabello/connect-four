@@ -99,18 +99,18 @@ class Game:
         for x in range(self._columns - 3):
             for y in reversed(range(3, self._rows)):
                 count = 0
-                for z in range(4):
+                for z in range(MINIMUM_CONNECTED):
                     if (x+z, y-z) in pieces:
                         count += 1
-                if count == 4:
+                if count == MINIMUM_CONNECTED:
                     return True
 
             for y in range(self._rows - 3):
                 count = 0
-                for z in range(4):
+                for z in range(MINIMUM_CONNECTED):
                     if (x+z, y+z) in pieces:
                         count += 1
-                if count == 4:
+                if count == MINIMUM_CONNECTED:
                     return True
 
         return victory
