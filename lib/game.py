@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from types import ListType
+
 CROSS = 'X'
 ROUND = 'O'
 
@@ -60,7 +62,7 @@ class Game:
         elif piece == ROUND:
             pieces = self._round_pieces
 
-        if len(pieces) < MINIMUM_CONNECTED:
+        if not self._minimum_pieces(pieces):
             return False
 
         victory = False
@@ -71,7 +73,7 @@ class Game:
             # Get the pieces at the column/row z
             col_or_row_pieces = filter(lambda i: i[a] == z, pieces)
 
-            if len(col_or_row_pieces) < MINIMUM_CONNECTED:
+            if not self._minimum_pieces(col_or_row_pieces):
                 continue
 
             # Just look in the range of columns/rows where there are pieces
@@ -81,7 +83,7 @@ class Game:
                 connected = filter(lambda i:
                                    w <= i[b] <= w + (MINIMUM_CONNECTED - 1),
                                    col_or_row_pieces)
-                if len(connected) == MINIMUM_CONNECTED:
+                if self._minimum_pieces(connected):
                     return True
 
         return victory
@@ -92,27 +94,29 @@ class Game:
         elif piece == ROUND:
             pieces = self._round_pieces
 
-        if len(pieces) < MINIMUM_CONNECTED:
+        if not self._minimum_pieces(pieces):
             return False
 
         victory = False
 
         for x in range(self._columns - (MINIMUM_CONNECTED - 1)):
             for y in reversed(range((MINIMUM_CONNECTED - 1), self._rows)):
-                count = 0
+                aux = []
                 for z in range(MINIMUM_CONNECTED):
                     if (x+z, y-z) in pieces:
-                        count += 1
-                if count == MINIMUM_CONNECTED:
+                        aux.append((x+z, y-z))
+                if self._minimum_pieces(aux):
                     return True
 
             for y in range(self._rows - (MINIMUM_CONNECTED - 1)):
-                count = 0
+                aux = []
                 for z in range(MINIMUM_CONNECTED):
                     if (x+z, y+z) in pieces:
-                        count += 1
-                if count == MINIMUM_CONNECTED:
+                        aux.append((x+z, y+z))
+                if self._minimum_pieces(aux):
                     return True
 
         return victory
 
+    def _minimum_pieces(self, pieces):
+        return len(pieces) >= MINIMUM_CONNECTED
