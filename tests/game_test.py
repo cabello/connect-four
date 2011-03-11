@@ -54,24 +54,24 @@ class GameTestCase(unittest.TestCase):
 
     def test_vertical_win_by_cross(self):
         # No victory, insufficient total pieces
-        g = Game(rows=4)
+        g = Game()
         [g.drop_cross(0) for i in range(3)]
         self.assertFalse(g._vertical_win('X'))
 
         # No victory, insufficient column total pieces
-        g = Game(rows=4)
+        g = Game()
         [g.drop_cross(0) for i in range(3)]
         g.drop_cross(1)
         self.assertFalse(g._vertical_win('X'))
 
         # Vertical win using crosses
-        g = Game(rows=4)
+        g = Game()
         [g.drop_cross(0) for i in range(4)]
         self.assertTrue(g._vertical_win('X'))
 
     def test_vertical_win_by_round(self):
         # Vertical win using round
-        g = Game(rows=4)
+        g = Game()
         [g.drop_round(0) for i in range(4)]
         self.assertTrue(g._vertical_win('O'))
         self.assertFalse(g._vertical_win('X'))
