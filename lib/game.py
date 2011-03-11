@@ -3,11 +3,15 @@
 CROSS = 'X'
 ROUND = 'O'
 
+DEFAULT_ROWS = 6
+DEFAULT_COLUMNS = 7
+MINIMUM_CONNECTED = 4
+
 class ColumnFullException(Exception):
     pass
 
 class Game:
-    def __init__(self, rows=6, columns=7):
+    def __init__(self, rows=DEFAULT_ROWS, columns=DEFAULT_COLUMNS):
         self._rows = rows
         self._columns = columns
         self._pieces = []
@@ -56,7 +60,7 @@ class Game:
         elif piece == ROUND:
             pieces = self._round_pieces
 
-        if len(pieces) < 4:
+        if len(pieces) < MINIMUM_CONNECTED:
             return False
 
         victory = False
@@ -67,7 +71,7 @@ class Game:
             # Get the pieces at the column/row z
             col_or_row_pieces = filter(lambda i: i[a] == z, pieces)
 
-            if len(col_or_row_pieces) < 4:
+            if len(col_or_row_pieces) < MINIMUM_CONNECTED:
                 continue
 
             # Just look in the range of columns/rows where there are pieces
@@ -76,7 +80,7 @@ class Game:
             for w in range(w_start, w_end):
                 connected = filter(lambda i: w <= i[b] <= w+3,
                                    col_or_row_pieces)
-                if len(connected) == 4:
+                if len(connected) == MINIMUM_CONNECTED:
                     return True
 
         return victory
