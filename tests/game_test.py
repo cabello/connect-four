@@ -156,5 +156,14 @@ class GameTestCase(unittest.TestCase):
         [g.drop_cross(0) for i in range(4)]
         self.assertTrue(g._minimum_pieces(g._pieces))
 
+    def test_get_pieces(self):
+        g = Game(rows=1)
+        g.drop_cross(0)
+        g.drop_round(1)
+        self.assertTrue((0,0) in g._get_pieces('X'))
+        self.assertFalse((1,0) in g._get_pieces('X'))
+        self.assertTrue((1,0) in g._get_pieces('O'))
+        self.assertFalse((0,0) in g._get_pieces('O'))
+
 if __name__ == "__main__":
     unittest.main()

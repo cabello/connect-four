@@ -57,10 +57,7 @@ class Game:
         elif horizontal:
             a,b = 1,0
 
-        if piece == CROSS:
-            pieces = self._cross_pieces
-        elif piece == ROUND:
-            pieces = self._round_pieces
+        pieces = self._get_pieces(piece)
 
         if not self._minimum_pieces(pieces):
             return False
@@ -89,10 +86,7 @@ class Game:
         return victory
 
     def _diagonal_win(self, piece):
-        if piece == CROSS:
-            pieces = self._cross_pieces
-        elif piece == ROUND:
-            pieces = self._round_pieces
+        pieces = self._get_pieces(piece)
 
         if not self._minimum_pieces(pieces):
             return False
@@ -120,3 +114,10 @@ class Game:
 
     def _minimum_pieces(self, pieces):
         return len(pieces) >= MINIMUM_CONNECTED
+
+    def _get_pieces(self, piece):
+        if piece == CROSS:
+            pieces = self._cross_pieces
+        elif piece == ROUND:
+            pieces = self._round_pieces
+        return pieces
