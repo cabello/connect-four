@@ -78,7 +78,8 @@ class Game:
             w_start = min(col_or_row_pieces)[b]
             w_end = max(col_or_row_pieces)[b] + 1
             for w in range(w_start, w_end):
-                connected = filter(lambda i: w <= i[b] <= w+3,
+                connected = filter(lambda i:
+                                   w <= i[b] <= w + (MINIMUM_CONNECTED - 1),
                                    col_or_row_pieces)
                 if len(connected) == MINIMUM_CONNECTED:
                     return True
@@ -96,8 +97,8 @@ class Game:
 
         victory = False
 
-        for x in range(self._columns - 3):
-            for y in reversed(range(3, self._rows)):
+        for x in range(self._columns - (MINIMUM_CONNECTED - 1)):
+            for y in reversed(range((MINIMUM_CONNECTED - 1), self._rows)):
                 count = 0
                 for z in range(MINIMUM_CONNECTED):
                     if (x+z, y-z) in pieces:
@@ -105,7 +106,7 @@ class Game:
                 if count == MINIMUM_CONNECTED:
                     return True
 
-            for y in range(self._rows - 3):
+            for y in range(self._rows - (MINIMUM_CONNECTED - 1)):
                 count = 0
                 for z in range(MINIMUM_CONNECTED):
                     if (x+z, y+z) in pieces:
