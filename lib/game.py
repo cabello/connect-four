@@ -40,37 +40,17 @@ class Game:
         return position
 
     def _vertical_win(self, piece):
-        if piece == CROSS:
-            pieces = self._cross_pieces
-        elif piece == ROUND:
-            pieces = self._round_pieces
-
-        if len(pieces) < 4:
-            return False
-
-        victory = False
-
-        # Only the columns where there are pieces need to be visited
-        columns = set(map(lambda i: i[0], pieces))
-        for x in columns:
-            # Get the pieces at the column x
-            column_pieces = filter(lambda i: i[0] == x, pieces)
-
-            if len(column_pieces) < 4:
-                continue
-
-            # Just look in the range of rows where there are pieces
-            y_start = min(column_pieces)[1]
-            y_end = max(column_pieces)[1] + 1
-            for y in range(y_start, y_end):
-                connected = filter(lambda i: y <= i[1] <= y+3,
-                                   column_pieces)
-                if len(connected) == 4:
-                    return True
-
-        return victory
+        return self._check_win(piece, vertical=True)
 
     def _horizontal_win(self, piece):
+        return self._check_win(piece, horizontal=True)
+
+    def _check_win(self, piece, vertical=False, horizontal=False):
+        if vertical:
+            a,b = 0,1 # Column is index zero, row is index one
+        elif horizontal:
+            a,b = 1,0
+
         if piece == CROSS:
             pieces = self._cross_pieces
         elif piece == ROUND:
@@ -81,21 +61,21 @@ class Game:
 
         victory = False
 
-        # Only the rows where there pieces need to be visited
-        rows = set(map(lambda i: i[1], pieces))
-        for y in rows:
-            # Get the pieces at the row y
-            row_pieces = filter(lambda i: i[1] == y, pieces)
+        # Only the columns/rows where there pieces need to be visited
+        columns_or_rows = set(map(lambda i: i[a], pieces))
+        for z in columns_or_rows:
+            # Get the pieces at the column/row z
+            col_or_row_pieces = filter(lambda i: i[a] == z, pieces)
 
-            if len(row_pieces) < 4:
+            if len(col_or_row_pieces) < 4:
                 continue
 
-            # Just look in the range of rows where there are pieces
-            x_start = min(row_pieces)[0]
-            x_end = max(row_pieces)[0] + 1
-            for x in range(x_start, x_end):
-                connected = filter(lambda i: x <= i[0] <= x+3,
-                                   row_pieces)
+            # Just look in the range of columns/rows where there are pieces
+            w_start = min(col_or_row_pieces)[b]
+            w_end = max(col_or_row_pieces)[b] + 1
+            for w in range(w_start, w_end):
+                connected = filter(lambda i: w <= i[b] <= w+3,
+                                   col_or_row_pieces)
                 if len(connected) == 4:
                     return True
 
