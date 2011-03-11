@@ -22,7 +22,7 @@ class Game:
         position = None
 
         # from rows to zero
-        for y in range(self._rows-1, -1, -1):
+        for y in reversed(range(self._rows)):
             if (column, y) not in self._pieces:
                 position = (column, y)
                 self._pieces.append(position)
@@ -97,7 +97,7 @@ class Game:
         victory = False
 
         for x in range(self._columns - 3):
-            for y in range(self._rows - 1, 2, -1):
+            for y in reversed(range(3, self._rows)):
                 count = 0
                 for z in range(4):
                     if (x+z, y-z) in pieces:
