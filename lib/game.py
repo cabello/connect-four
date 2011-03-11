@@ -5,17 +5,17 @@ from types import ListType
 CROSS = 'X'
 ROUND = 'O'
 
-DEFAULT_ROWS = 6
 DEFAULT_COLUMNS = 7
+DEFAULT_ROWS = 6
 MINIMUM_CONNECTED = 4
 
 class ColumnFullException(Exception):
     pass
 
 class Game:
-    def __init__(self, rows=DEFAULT_ROWS, columns=DEFAULT_COLUMNS):
-        self._rows = rows
+    def __init__(self, columns=DEFAULT_COLUMNS, rows=DEFAULT_ROWS):
         self._columns = columns
+        self._rows = rows
         self._pieces = []
         self._cross_pieces = []
         self._round_pieces = []
