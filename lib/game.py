@@ -85,3 +85,33 @@ class Game:
 
         return victory
 
+    def _diagonal_win(self, piece):
+        if piece == CROSS:
+            pieces = self._cross_pieces
+        elif piece == ROUND:
+            pieces = self._round_pieces
+
+        if len(pieces) < MINIMUM_CONNECTED:
+            return False
+
+        victory = False
+
+        for x in range(self._columns - 3):
+            for y in range(self._rows - 1, 2, -1):
+                count = 0
+                for z in range(4):
+                    if (x+z, y-z) in pieces:
+                        count += 1
+                if count == 4:
+                    return True
+
+            for y in range(self._rows - 3):
+                count = 0
+                for z in range(4):
+                    if (x+z, y+z) in pieces:
+                        count += 1
+                if count == 4:
+                    return True
+
+        return victory
+

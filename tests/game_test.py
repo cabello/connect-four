@@ -100,6 +100,52 @@ class GameTestCase(unittest.TestCase):
         self.assertTrue(g._horizontal_win('O'))
         self.assertFalse(g._horizontal_win('X'))
 
+    def test_diagonal_win_by_cross(self):
+        """
+        Diagonal win using this structure
+              X
+            X O
+          X O O
+        X O O O
+        """
+        g = Game()
+        g.drop_cross(0)
+        g.drop_round(1)
+        g.drop_cross(1)
+        g.drop_round(2)
+        g.drop_round(2)
+        g.drop_cross(2)
+        g.drop_round(3)
+        g.drop_round(3)
+        g.drop_round(3)
+        g.drop_cross(3)
+        self.assertTrue(g._diagonal_win('X'))
+
+        """
+        Diagonal win using this structure
+        X
+        O X
+        O O X
+        O O O X
+        """
+        g = Game()
+        g.drop_cross(3)
+        g.drop_round(2)
+        g.drop_cross(2)
+        g.drop_round(1)
+        g.drop_round(1)
+        g.drop_cross(1)
+        g.drop_round(0)
+        g.drop_round(0)
+        g.drop_round(0)
+        g.drop_cross(0)
+        self.assertTrue(g._diagonal_win('X'))
+        self.assertFalse(g._diagonal_win('O'))
+
+        # No victory, insufficient total pieces
+        g = Game()
+        [g.drop_cross(i) for i in range(3)]
+        self.assertFalse(g._diagonal_win('X'))
 
 if __name__ == "__main__":
     unittest.main()
